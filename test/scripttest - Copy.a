@@ -1,0 +1,103 @@
+
+        .org $1000
+
+        sym1 = $3244
+        .word sym1
+
+
+        .macro ADD16
+        clc
+        lda \1
+        adc \2
+        sta \3
+        lda \1 + 1
+        adc \2 + 1
+        sta \3 + 1
+        .endm
+       
+;        .org $1000
+        ADD16 AAA, BBB, RESULT
+
+AAA     .word $1234
+BBB     .word $4567
+RESULT  .ds 2
+
+    .var aa = 1, bb = 2, t = 0
+    
+    .repeat
+        .byte aa
+        t = aa
+        aa = bb
+        bb = t + aa
+    .until aa >= $100
+
+    BATMAN = 1
+    .ifndef BATMAN
+
+        .var i, ii, jj
+
+        .do
+            i = i + 1 
+            .byte i
+        .while (i < 3)
+
+        .for i = 10 .to 20 .STEP 2
+            lda here + i
+        .next i
+
+        .repeat
+            jsr i + 1
+            i = i - 2
+        .until i <= 10
+
+            i = i + 30
+        .do
+            ldx here + i
+            nop
+            i = i - 2
+        .while i >= 10
+
+here
+
+        nop
+        .for i = 1 .to 10
+            ii = 0
+            .repeat
+                jsr ii
+                ii = ii - 2
+
+                jj = 0
+                .do
+                    jsr jj
+                    nop
+                    jj = jj + 2
+                .while (jj < 10)
+            .until ii <= 10
+        .next i
+    
+        .if i > 0 
+            nop
+            .while (i > 1)
+                .db i
+                i = i -3
+            .wend
+        .else
+            brk
+        .endif
+        .byte 100
+  
+        .if i < 0 
+            nop
+            .while (i > 1)
+                .db i
+                i = i -3
+            .wend
+        .else
+            brk
+        .endif
+        brk
+    
+    .else   ; IFDEF batman
+
+        .TEXT "PAUL"
+    .endif

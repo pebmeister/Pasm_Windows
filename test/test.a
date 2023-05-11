@@ -1,0 +1,20 @@
+  
+   .org 1000
+  jmp cheese
+help
+-
+    lda ham
+-
+    ldy -
+ham
+    bne -
+    jsr --
+    rts
+   
+cheese
+    
+    jsr help
+    
+ 
+    rts
+    
